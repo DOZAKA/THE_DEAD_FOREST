@@ -24,7 +24,12 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 *.xcuserstate
-
+CMakeLists.txt
+LICENSE
+Library
+boost.*
+cocos2d/
+proj.*
 
 ### C++ ###
 # Compiled Object files
