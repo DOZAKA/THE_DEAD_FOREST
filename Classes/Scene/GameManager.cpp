@@ -69,23 +69,38 @@ namespace realtrick
         this->clear();
     }
     
-    
-    void GameManager::loadGameMap(const char* mapFileName)
+    void GameManager::_loadCellSpaceAndMap(const char* fileName)
     {
-        if( _gameMap != nullptr )
-        {
-            throw std::runtime_error("<GameManager::loadGameMap> GameMap is already exist.");
-        }
-        
         _cellSpace = new CellSpacePartition(Prm.getValueAsInt("worldWidth"),
                                             Prm.getValueAsInt("worldHeight"),
                                             Prm.getValueAsInt("cellWidth"),
                                             Prm.getValueAsInt("cellHeight"),
                                             Prm.getValueAsInt("maxEntity"));
         
-        _gameMap = GameMap::create(this, mapFileName);
+        _gameMap = GameMap::create(this, fileName);
         _gameMap->setTag(999);
         _gameCamera->getStaticRenderTarget()->addChild(_gameMap);
+    }
+    
+    void GameManager::loadGameMapWithNetwork(const char* fileName)
+    {
+        if( _gameMap != nullptr )
+        {
+            throw std::runtime_error("<GameManager::loadGameMap> GameMap is already exist.");
+        }
+        
+        _loadCellSpaceAndMap(fileName);
+    }
+    
+    
+    void GameManager::loadGameMap(const char* fileName)
+    {
+        if( _gameMap != nullptr )
+        {
+            throw std::runtime_error("<GameManager::loadGameMap> GameMap is already exist.");
+        }
+
+        _loadCellSpaceAndMap(fileName);
         
         std::vector<Vec2> startingPoints = getGameMap()->getStartingLocationData();
         log("<GameManager::loadGameMap> Created Human at (%.0f, %.0f)", startingPoints.front().x, startingPoints.front().y);
@@ -95,6 +110,7 @@ namespace realtrick
         registEntity(human, getNextValidID(), Z_ORDER_HUMAN);
         setPlayer(human);
         
+        
         for(int i = 1 ; i < startingPoints.size() ; ++ i)
         {
             log("<GameManager::loadGameMap> Created Human at (%.0f, %.0f)", startingPoints[i].x, startingPoints[i].y);
@@ -102,6 +118,7 @@ namespace realtrick
             human->setWorldPosition(startingPoints[i]);
             registEntity(human, getNextValidID(), Z_ORDER_HUMAN);
         }
+        
         
 //        std::vector<NameCoordAmount> items = getGameMap()->getItemData();
 //        for(int i = 0 ; i < items.size() ; ++ i)
