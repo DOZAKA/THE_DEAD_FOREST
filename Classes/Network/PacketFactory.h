@@ -20,7 +20,7 @@ namespace realtrick
                     case PacketType::E_I_NOTIFY_TERMINAL:    return new PK_I_NOTIFY_TERMINAL();
                     case PacketType::E_S_REQ_HEARTBEAT:    return new PK_S_REQ_HEARTBEAT();
                     case PacketType::E_C_ANS_HEARTBEAT:    return new PK_C_ANS_HEARTBEAT();
-                    case PacketType::E_S_NOTIFY_FIXED_UPDATE:    return new PK_S_NOTIFY_FIXED_UPDATE();
+                    //case PacketType::E_S_NOTIFY_FIXED_UPDATE:    return new PK_S_NOTIFY_FIXED_UPDATE();
                     case PacketType::E_S_NOTIFY_FIXED_UPDATE_BUNCH:    return new PK_S_NOTIFY_FIXED_UPDATE_BUNCH();
                     case PacketType::E_C_REQ_REGIST:    return new PK_C_REQ_REGIST();
                     case PacketType::E_S_NOTIFY_STARTPOINT:    return new PK_S_NOTIFY_STARTPOINT();

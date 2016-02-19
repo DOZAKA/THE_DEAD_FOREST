@@ -15,18 +15,18 @@ namespace realtrick
             std::array<unsigned char, SOCKET_BUF_SIZE> _stream;
         public:
             Stream();
-            Stream(unsigned char* stream, size_t size);
+            Stream(unsigned char* stream, stream_size_t size);
             void initialize();
             
             unsigned char* data();
-            size_t size();
+            stream_size_t size();
             
             void operator=(Stream& stream);
-            void set(unsigned char* stream, size_t size);
+            void set(unsigned char* stream, stream_size_t size);
             
             //write
             //-------------------------------------------------------------------------------------//
-            bool checkWriteBound(size_t len);
+            bool checkWriteBound(stream_size_t len);
             
 #define STREAM_WRITE(value)									\
             Int32 size = sizeof(value);									\
@@ -64,31 +64,17 @@ namespace realtrick
                     *this << i;
                 }
             }
-            
-            
-            template<typename T>
-            void operator<<(std::queue<T> &value)
-            {
-                *this << value.size();
-                while (!value.empty())
-                {
-                    T i = value.front();
-                    value.pop();
-                    *this << i;
-                }
-                
-            }
-            
+
             void operator<<(const str_t &value);
             
             // read
             //--------------------------------------------------------------------------
             
-            bool checkReadBound(size_t len);
-            void read(void* retVal, size_t len);
+            bool checkReadBound(stream_size_t len);
+            void read(void* retVal, stream_size_t len);
             
-#define STREAM_READ(type, retVal)				\
-            size_t size = sizeof(type);					\
+            #define STREAM_READ(type, retVal)				\
+            stream_size_t size = sizeof(type);					\
             if (this->checkReadBound(size) == false)		\
             {											\
                 return;									\
@@ -98,6 +84,7 @@ namespace realtrick
             template<typename T>
             void operator>>(T* retVal)
             {
+                
                 STREAM_READ(T, retVal);
             }
             
@@ -115,30 +102,17 @@ namespace realtrick
             template<typename T>
             void operator>>(std::vector<T>* retVal)
             {
-                size_t size;
+                UInt64 size;
                 *this >> &size;
                 
-                for (size_t i = 0; i < size; ++i)
+                for (stream_size_t i = 0; i < size; ++i)
                 {
                     T tmp;
                     *this >> &tmp;
                     retVal->push_back(tmp);
                 }
             }
-            
-            template<typename T>
-            void operator>>(std::queue<T>* retVal)
-            {
-                size_t size;
-                *this >> &size;
-                
-                for (size_t i = 0; i < size; ++i)
-                {
-                    T tmp;
-                    *this >> &tmp;
-                    retVal->push(tmp);
-                }
-            }
+
             void operator>>(str_t* retVal);
             
         };

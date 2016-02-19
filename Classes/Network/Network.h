@@ -18,16 +18,16 @@ namespace realtrick
             friend class Singleton<ClientGenerator>;
         private:
             ClientGenerator() {
-                _id = 32443;
+                _id = 456;
             }
         public:
-            UInt32 id()
+            UInt64 id()
             {
                 return _id;
             }
             virtual ~ClientGenerator() = default;
         private:
-            UInt32 _id;
+            UInt64 _id;
         };
         
         
@@ -53,6 +53,7 @@ namespace realtrick
             inline bool isConnection() { return _isConnect; }
             
             
+#define SOCKET_BUF_SIZE 1024
         private:
             bool                                        _isConnect;
             std::shared_ptr<std::thread>                _thread;

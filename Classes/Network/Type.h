@@ -8,9 +8,11 @@ namespace realtrick
 {
     namespace network
     {
-        typedef unsigned long long		object_t;
-        typedef unsigned long long		oid_t;
+        typedef uint64_t                object_t;
+        typedef uint64_t                oid_t;
         typedef int32_t					packet_size_t;
+        
+        typedef uint32_t                stream_size_t;
         
         typedef std::time_t				tick_t;
         typedef std::thread				thread_t;

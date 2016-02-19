@@ -4,6 +4,7 @@
 #include "GameManager.hpp"
 #include "EntityHuman.hpp"
 #include "GameWorld.hpp"
+#include "Camera2D.hpp"
 #include <memory>
 
 using namespace cocos2d;
@@ -12,14 +13,16 @@ namespace realtrick
 {
     namespace network
     {
-        
+        bool  PacketProcess::_isNetworkReady  = false;
         GameManager* PacketProcess::_gameMgr = nullptr;
+        
         void PacketProcess::registSubPacketFunc()
         {
             
 #define INSERT_PACKET_PROCESS(type)		_runFuncTable.insert(std::make_pair(PacketType::E_##type, &PacketProcess::type))
             
             INSERT_PACKET_PROCESS(S_REQ_HEARTBEAT);
+            
             INSERT_PACKET_PROCESS(S_NOTIFY_FIXED_UPDATE_BUNCH);
             
             INSERT_PACKET_PROCESS(S_NOTIFY_STARTPOINT);
@@ -35,7 +38,7 @@ namespace realtrick
             
             INSERT_PACKET_PROCESS(S_BROADCAST_BEZEL_MOVE_KEYDOWN);
 
-            
+            INSERT_PACKET_PROCESS(S_NOTIFY_GAMESTART);
             
             
             
@@ -66,6 +69,10 @@ namespace realtrick
         {
             PK_S_NOTIFY_FIXED_UPDATE_BUNCH* packet = (PK_S_NOTIFY_FIXED_UPDATE_BUNCH*)rowPacket;
             
+            
+            log("PK_S_NOTIFY_FIXED_UPDATE :  %lu", sizeof(PK_S_NOTIFY_FIXED_UPDATE));
+            
+        
             auto a = packet->bunch;
             for(int i = 0 ; i < a.size() ; ++i)
             {
@@ -84,9 +91,10 @@ namespace realtrick
             
             EntityHuman* player = (EntityHuman*)ret;
             
+            log("S_NOTIFY_FIXED_UPDATE %f %f", rowPacket.position.x, rowPacket.position.y);
+            player->setWorldPosition(rowPacket.position);
             
-            player->setPosition(rowPacket.position);
- 
+            //_gameMgr->getGameWorld()->getGameCamera()->setCameraPos(rowPacket.position);
         }
         
         
@@ -95,13 +103,17 @@ namespace realtrick
             PK_S_NOTIFY_STARTPOINT* notifyPacket = (PK_S_NOTIFY_STARTPOINT*)rowPacket;
             
             EntityHuman* human = EntityHuman::create(_gameMgr);
-            human->setPosition(notifyPacket->position);
-            human->setVisibleCrossHair(true);
+            
+            human->setWorldPosition(notifyPacket->position);
+            
+            
             _gameMgr->registEntity(human, notifyPacket->validID, Z_ORDER_HUMAN);
             _gameMgr->getGameWorld()->setPlayerPtr(human);
             _gameMgr->setPlayer(human);
            
+            human->setVisibleCrossHair(true);
             _gameMgr->getGameWorld()->displayGame();
+            
             
             log("player position: %f %f", human->getPosition().x, human->getPosition().y);
             
@@ -119,9 +131,14 @@ namespace realtrick
             if (myPlayer->getTag() == broadcastPacket->validID) return;
             
             EntityHuman* human = EntityHuman::create(_gameMgr);
-            human->setPosition(broadcastPacket->position);
+            
+            
+            human->setWorldPosition(broadcastPacket->position);
+
             _gameMgr->registEntity(human, broadcastPacket->validID, Z_ORDER_HUMAN);
             
+            
+           
             delete broadcastPacket;
             
         }
@@ -169,7 +186,7 @@ namespace realtrick
             EntityHuman* player = (EntityHuman*)ret;
             
             player->setMoving(broadcastPacket->moving);
-            player->setHeading(broadcastPacket->moving);
+            player->setTargetHeading(broadcastPacket->moving);
             
             player->setInputMask(JoystickMessageTypes::RUN);
             
@@ -204,7 +221,7 @@ namespace realtrick
             EntityHuman* player = (EntityHuman*)ret;
             
             player->setMoving(broadcastPacket->moving);
-            player->setHeading(broadcastPacket->heading);
+            player->setTargetHeading(broadcastPacket->heading);
             
             delete broadcastPacket;
         }
@@ -223,7 +240,11 @@ namespace realtrick
             
         }
         
-        
+        void PacketProcess::S_NOTIFY_GAMESTART(Packet* rowPacket)
+        {
+             _isNetworkReady = true;
+            
+        }
         
         
         

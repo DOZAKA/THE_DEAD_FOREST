@@ -10,7 +10,7 @@ namespace realtrick
             this->initialize();
         }
         
-        Stream::Stream(unsigned char* stream, size_t size)
+        Stream::Stream(unsigned char* stream, stream_size_t size)
         {
             this->initialize();
             this->set(stream, size);
@@ -28,7 +28,7 @@ namespace realtrick
             return _stream.data();
         }
         
-        size_t Stream::size()
+        stream_size_t Stream::size()
         {
             return _offset;
         }
@@ -38,7 +38,7 @@ namespace realtrick
             this->set(stream.data(), stream.size());
         }
         
-        void Stream::set(unsigned char* data, size_t size)
+        void Stream::set(unsigned char* data, stream_size_t size)
         {
             this->_offset = size;
             memcpy(this->_stream.data(), (void*)data, size);
@@ -46,7 +46,7 @@ namespace realtrick
         
         // write
         //--------------------------------------------------------------------------//
-        bool Stream::checkWriteBound(size_t len)
+        bool Stream::checkWriteBound(stream_size_t len)
         {
             if (_offset + len > sizeof(_stream))
             {
@@ -107,7 +107,7 @@ namespace realtrick
         // read
         //--------------------------------------------------------------------------//
         
-        bool Stream::checkReadBound(size_t len)
+        bool Stream::checkReadBound(stream_size_t len)
         {
             if (_readPt + len > _offset)
             {
@@ -117,7 +117,7 @@ namespace realtrick
             return true;
         }
         
-        void Stream::read(void* retVal, size_t len)
+        void Stream::read(void* retVal, stream_size_t len)
         {
             memcpy(retVal, (void*)(_stream.data() + _readPt), len);
             _readPt += len;
