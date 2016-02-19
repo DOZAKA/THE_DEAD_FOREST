@@ -309,7 +309,7 @@ namespace realtrick
         _buttonHolder->setButtonSize(Size(92.0f, 92.0f));
         addChild(_buttonHolder);
         
-        // 흠 무엇을 할까 !!!!! lsh
+        // 흠 무엇을 할까 !!!!! lshss
         
         
         auto hpBar = Sprite::createWithSpriteFrameName("hpBar.png");
