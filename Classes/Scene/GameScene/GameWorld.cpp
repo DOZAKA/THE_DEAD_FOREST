@@ -309,6 +309,8 @@ namespace realtrick
         _buttonHolder->setButtonSize(Size(92.0f, 92.0f));
         addChild(_buttonHolder);
         
+        // 흠 무엇을 할까 ?
+        
         
         auto hpBar = Sprite::createWithSpriteFrameName("hpBar.png");
         hpBar->setAnchorPoint(Vec2(0.0f, 0.5f));
