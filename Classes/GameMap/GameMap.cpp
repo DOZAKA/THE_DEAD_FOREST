@@ -78,7 +78,7 @@ namespace realtrick
             {
                 _currTiles[i][j] = Sprite::create();
                 _normalTiles[i][j] = Sprite::create();
-                 addChild(_normalTiles[i][j] , 2);          //     =="====""===="==== : 배경 노멀 텍스쳐 (2)
+                addChild(_normalTiles[i][j] , 2);           //     =="====""===="==== : 배경 노멀 텍스쳐 (2)
                 addChild(_currTiles[i][j] , 1);             //     --'----''----'---- : 일반 배경 텍스쳐 (1)
             }
         }

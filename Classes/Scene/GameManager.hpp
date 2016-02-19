@@ -80,6 +80,10 @@ namespace realtrick
         
         void loadGameMap(const char* fileName);
         
+        void loadGameMapWithNetwork(const char* fileName);
+        
+        std::string getFileFromNetwork();
+        
         void setGameCamera(Camera2D* camera) { _gameCamera = camera; }
         
         Camera2D* getGameCamera() const { return _gameCamera; }
@@ -120,6 +124,7 @@ namespace realtrick
         
         void _setGameWorld(GameWorld* world)            { _gameWorld = world; }
         
+        void _loadCellSpaceAndMap(const char* fileName);
     };
     
 }

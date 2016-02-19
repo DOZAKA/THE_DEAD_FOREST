@@ -112,17 +112,17 @@ namespace realtrick
         
         _gameMgr = new GameManager(this, _gameCamera);
         _gameMgr->setDebugNode(_debugNode);
-        _gameMgr->loadGameMap("jsonData.txt");
-        
-        
+    
         
         if ( network )
         {
             loadGameDataByNetwork();
+            _gameMgr->loadGameMapWithNetwork("jsonData.txt");
         }
         else
         {
             loadGameDataByFile();
+            _gameMgr->loadGameMap("jsonData.txt");
         }
         
     }
