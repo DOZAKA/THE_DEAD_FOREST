@@ -53,7 +53,6 @@ namespace realtrick
             inline bool isConnection() { return _isConnect; }
             
             
-#define SOCKET_BUF_SIZE 1024
         private:
             bool                                        _isConnect;
             std::shared_ptr<std::thread>                _thread;
