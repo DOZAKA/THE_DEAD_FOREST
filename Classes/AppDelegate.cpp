@@ -6,6 +6,7 @@
 #include "LightTest.hpp"
 #include "RenderTargetTest.hpp"
 
+// Test
 using namespace cocos2d;
 
 static cocos2d::Size winSize = cocos2d::Size(1136, 640);
