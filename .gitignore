@@ -1,0 +1,6 @@
+# 무시
+boost.framework
+CMakeLists.txt
+cocos2d/
+LICENSE
+proj.*

@@ -150,7 +150,7 @@ namespace realtrick
     {
         setPlayerPtr( _gameMgr->getPlayerPtr() );
         
-        // 화면 출력
+        // 화면 출력 222
         displayGame();
         
     }
