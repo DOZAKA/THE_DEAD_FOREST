@@ -1,4 +1,15 @@
-#**THE DEAD FOREST**
+>#**THE DEAD FOREST**
+
+- - -
+
+**Realtime Mobile 2D FPS Game Client**
+
+
+Powerd by Cocos2d-x
+
+[http://cocos2d-x.org]()
+
+- - -
 
 #Class  Description
 
@@ -67,8 +78,11 @@
 
  게임의 유저인터페이스를 구현한 클래스이다.
 
--------
+- - -
+
 **작성일: 2016. 02. 19**
 
 **작성자: 남준현**
+
+- - -
  
