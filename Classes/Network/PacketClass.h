@@ -46,13 +46,13 @@ namespace realtrick
             PacketType type() { return PacketType::E_C_ANS_HEARTBEAT; }
         };
         
-        class PK_S_NOTIFY_FIXED_UPDATE : public Packet
+        class PK_S_NOTIFY_FIXED_UPDATE //: public Packet
         {
         public:
-            PacketType type() { return PacketType::E_S_NOTIFY_FIXED_UPDATE; }
+           // PacketType type() { return PacketType::E_S_NOTIFY_FIXED_UPDATE; }
             UInt32     validID;
             cocos2d::Vec2     position;
-            
+            /*
             void encode(Stream& stream) {
                 stream << (Int64) this->type();
                 stream << validID;
@@ -63,6 +63,7 @@ namespace realtrick
                 stream >> &validID;
                 stream >> &position;
             }
+             */
         };
         
         class PK_S_NOTIFY_FIXED_UPDATE_BUNCH : public Packet

@@ -37,10 +37,9 @@ namespace realtrick
         public:
             
             PacketProcess(GameManager* gameMgr);
-            static void setNode(cocos2d::Node* n) {_node = n;}
             void registSubPacketFunc();
             void packetExecute(Packet* packet);
-            
+            bool isNetworkReady() { return _isNetworkReady; }
             static void S_REQ_HEARTBEAT(Packet* rowPacket);
             static void S_NOTIFY_FIXED_UPDATE_BUNCH(Packet* rowPacket);
             static void S_NOTIFY_FIXED_UPDATE(PK_S_NOTIFY_FIXED_UPDATE rowPacket);
@@ -56,11 +55,11 @@ namespace realtrick
             static void S_BROADCAST_JOYSTICK_MOVING_CHANGE(Packet* rowPacket);
             static void S_BROADCAST_BEZEL_MOVE_KEYDOWN(Packet* rowPacket);
             
+            static void S_NOTIFY_GAMESTART(Packet* rowPacket);
         private:
             
             static GameManager* _gameMgr;
-            static cocos2d::Node* _node;
-            
+            static bool  _isNetworkReady ;
         };
     }
 }
