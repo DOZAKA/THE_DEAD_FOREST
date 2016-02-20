@@ -22,6 +22,9 @@
 #include "ClipperWrapper.hpp"
 #include "ButtonHolder.hpp"
 #include "Inventory.hpp"
+#include "GameFlow.hpp"
+#include "SingleGameFlow.hpp"
+#include "NetworkGameFlow.hpp"
 
 #include "Network.h"
 #include "PacketQueue.h"
@@ -37,6 +40,7 @@ namespace realtrick
     GameWorld::~GameWorld()
     {
         CC_SAFE_DELETE(_gameMgr);
+        CC_SAFE_DELETE(_gameFlow);
     }
     
     
@@ -72,7 +76,7 @@ namespace realtrick
     
     void GameWorld::onEnter()
     {
-        
+        //
         //                                                [Director]
         //                                                    |
         //                                                    |
@@ -85,8 +89,7 @@ namespace realtrick
         //       static node   dynamic node   normal node    occulusion node                                     (depth 3)
         //
         
-        prepareToStart(false);
-        
+        prepareToStart(true);
         Layer::onEnter();
     }
     
@@ -95,189 +98,98 @@ namespace realtrick
     {
         _debugNode = DrawNode::create();
         _debugNode->setPosition(_winSize/2);
+        addChild(_debugNode, numeric_limits<int>::max() - 1);
         
         // is use debug?
         _debugNode->setVisible(Prm.getValueAsBool("useDebug"));
         
-        addChild(_debugNode, numeric_limits<int>::max() - 1);
-        
+        //
+        // 화면을 클리핑하기 위한 상위 객체. (이 노드에 붙는다면 화면 바깥은 안그려지게 된다)
+        //
         _clipRectNode = ClippingRectangleNode::create(cocos2d::Rect(0, 0, _winSize.width, _winSize.height));
         addChild(_clipRectNode);
         
+    
+        // [월드 생성 순서]
+        // Camera 생성   ->   Manager 생성   ->   Game Flow 생성   ->   게임 로드
+        //
         
+        
+        //
+        // 1. Game Camera
+        //
         _gameCamera = Camera2D::create(this);
         _gameCamera->setZoom(Prm.getValueAsFloat("cameraZoom"));
         _gameCamera->pauseGame();
         addChild(_gameCamera);
         
         
+        //
+        // 2. Game Manager
+        //
         _gameMgr = new GameManager(this, _gameCamera);
         _gameMgr->setDebugNode(_debugNode);
     
         
-        if ( network )
-        {
-            loadGameDataByNetwork();
-        }
-        else
-        {
-            loadGameDataByFile();
-        }
-    }
-    
-    
-    void GameWorld::loadGameDataByNetwork()
-    {
-        setPacketProcess(std::make_shared<PacketProcess>(_gameMgr));
-        
-        while(!(Network::getInstance().isConnection()));
-        
-        PK_C_REQ_REGIST reqPacket;
-        reqPacket.pid = ClientGenerator::getInstance().id();
-        reqPacket.roomID = 1;
-        
-        Network::getInstance().sendPacket(&reqPacket);
+        //
+        // 3. Game Flow ( 네트워크, 싱글 플레이에 맞게 게임 로직이 다르게 흐른다. )
+        //
+        if ( network ) _gameFlow = new NetworkGameFlow(this);
+        else _gameFlow = new SingleGameFlow(this);
         
         
-        while( !_packetProcess->isNetworkReady() )
-        {
-            network::Packet* packet;
-            if(PacketQueue::getInstance().pop(packet))
-            {
-                _packetProcess->packetExecute(packet);
-            }
-        }
-
-    }
-    
-    
-    void GameWorld::loadGameDataByFile()
-    {
-        _gameMgr->loadGameMap("jsonData.txt");
-        setPlayerPtr(_gameMgr->getPlayerPtr());
-        // 화면 출력
-        displayGame();
+        //
+        // 4. Load Data ( 흐름에 맞게 데이터를 로딩 )
+        //
+        _gameFlow->loadGameData();
     }
     
     
     void GameWorld::displayGame()
     {
-        
         _uiLayer = Sprite::create();
         addChild(_uiLayer, numeric_limits<int>::max());
+
         
+        //
+        // Move Joystick
+        //
         _moveJoystick = JoystickEx::create("handler.png", "handler.png", cocos2d::ui::Widget::TextureResType::PLIST);
         _moveJoystick->setJoystickPad("pad.png");
         _moveJoystick->setMaxMovableRadius(50.0f);
         _moveJoystick->setPosition(Vec2(200, 200));
         _moveJoystick->setRotationType(realtrick::JoystickEx::RotationType::ROTATION_8);
-        _moveJoystick->setClickCallback([&, this](Ref* ref, ui::Widget::TouchEventType type) {
-            
-            switch (type)
-            {
-                case ui::Widget::TouchEventType::BEGAN:
-                {
-                    _player->addInputMask(JoystickMessageTypes::MOVE);
-                    break;
-                }
-                case ui::Widget::TouchEventType::ENDED:
-                {
-                    _player->removeInputMask(JoystickMessageTypes::MOVE);
-                    break;
-                }
-                case ui::Widget::TouchEventType::CANCELED:
-                {
-                    _player->removeInputMask(JoystickMessageTypes::MOVE);
-                    break;
-                }
-                default: break;
-            }
-            
-        });
-        
-        _moveJoystick->setDoubleClickCallback([&, this](Ref* ref, JoystickEx::ClickEventType type){
-            
-            switch (type)
-            {
-                case JoystickEx::ClickEventType::BEGAN:
-                {
-                    _player->addInputMask(JoystickMessageTypes::RUN);
-                    break;
-                }
-                case JoystickEx::ClickEventType::ENDED:
-                {
-                    _player->removeInputMask(JoystickMessageTypes::RUN);
-                    break;
-                }
-                default: break;
-            }
-            
-        });
-        
-        _moveJoystick->setChangedDirectionCallback([&, this](Ref* ref, const Vec2& newDirection){
-            
-            _player->setMoving(newDirection);
-            
-            JoystickEx* self = (JoystickEx*)ref;
-            
-            if( self->isDoubleClicked() )
-            {
-                _bezel->setBezelDirection(newDirection, _player->getTurnSpeed());
-            }
-            
-        });
-        
+        _moveJoystick->setChangedDirectionAndStatusCallback(_gameFlow->getMoveJoystickCallback());
         _uiLayer->addChild(_moveJoystick);
         
         
-        
+        //
+        // Bezel
+        //
         _bezel = CircularBezel::create("bezel.png", ui::Widget::TextureResType::LOCAL);
         _bezel->setPosition(Vec2(_winSize.width - 200, 200));
         _bezel->setTriggerDegree(std::make_pair(5.0f, 10.0f));
         _bezel->setTriggerRadius(std::make_pair(50.0f, 200.0f));
         _bezel->setPrecision(3);
-        _bezel->addTriggerCallback([&, this](Ref* ref, const Vec2& dir){
-            
-            _player->setTargetHeading(dir);
-            
-        });
+        _bezel->addTriggerCallback(_gameFlow->getBelzelCallback());
         _uiLayer->addChild(_bezel);
         
-        
-        
+
+        //
+        // Attack Joystick
+        //
         _attButton = JoystickEx::create("attackButton.png", "attackButton.png", ui::Widget::TextureResType::LOCAL);
         _attButton->setJoystickPad("pad.png");
         _attButton->setMaxMovableRadius(80.0f);
         _attButton->setPosition(Vec2(_winSize.width - 200, 200));
-        _attButton->setClickCallback([&, this](Ref* ref, ui::Widget::TouchEventType type){
-            
-            switch (type)
-            {
-                case ui::Widget::TouchEventType::BEGAN:
-                {
-                    _player->addInputMask((int)JoystickMessageTypes::ATTACK_BEGAN);
-                    break;
-                }
-                case ui::Widget::TouchEventType::ENDED:
-                {
-                    _player->removeInputMask((int)JoystickMessageTypes::ATTACK_BEGAN);
-                    _player->addInputMask((int)JoystickMessageTypes::ATTACK_ENDED);
-                    break;
-                }
-                case ui::Widget::TouchEventType::CANCELED:
-                {
-                    _player->removeInputMask((int)JoystickMessageTypes::ATTACK_BEGAN);
-                    _player->addInputMask((int)JoystickMessageTypes::ATTACK_ENDED);
-                    break;
-                }
-                    
-                default: break;
-            }
-            
-        });
+        _attButton->setClickCallback(_gameFlow->getAttackJoystickCallback());
         _uiLayer->addChild(_attButton);
         
         
+        
+        //
+        // Current Weapon UI
+        //
         _weaponStatus = WeaponStatusEx::create("reload.png", "reload.png", ui::Widget::TextureResType::LOCAL);
         _weaponStatus->setPosition(Vec2(_winSize.width - 100.0f, _winSize.height - 100.0f));
         _weaponStatus->setReloadButtonCallback([&, this](Ref* ref, ui::Widget::TouchEventType type){
@@ -306,7 +218,7 @@ namespace realtrick
         
         
         //
-        // button holder
+        // Button Holder
         //
         _buttonHolder = userinterface::ButtonHolder::create(_gameMgr);
         _buttonHolder->setPosition(Vec2(_winSize.width / 2.0f, _winSize.height * 0.15f));
@@ -336,6 +248,9 @@ namespace realtrick
         });
         
         
+        //
+        // Inventory
+        //
         _inventory = userinterface::Inventory::create();
         _inventory->setVisible(false);
         _inventory->setPosition(Vec2(_winSize.width / 2, _winSize.height * 0.55f));
@@ -343,6 +258,9 @@ namespace realtrick
         
         
         
+        //
+        // Hp System (Dummy)
+        //
         auto hpBar = Sprite::createWithSpriteFrameName("hpBar.png");
         hpBar->setAnchorPoint(Vec2(0.0f, 0.5f));
         hpBar->setScaleX(0.3f);
@@ -358,7 +276,6 @@ namespace realtrick
         
         
         
-        
         // init game map
         _gameMgr->getGameMap()->updateChunk(_player->getWorldPosition());
         _gameCamera->setCameraPos(_player->getWorldPosition());
@@ -370,12 +287,7 @@ namespace realtrick
     
     void GameWorld::update(float dt)
     {
-        
-        Packet* packet;
-        if(PacketQueue::getInstance().pop(packet))
-        {
-            _packetProcess->packetExecute(packet);
-        }
+        _gameFlow->packetExecute();
 
         _debugNode->clear();
         Vec2 oldCameraPos = _gameCamera->getCameraPos();
@@ -388,12 +300,6 @@ namespace realtrick
             _gameMgr->getGameMap()->updateChunk(oldCameraPos);
         
         Dispatch.dispatchDelayedMessages();
-    }
-    
-    
-    void GameWorld::setPacketProcess(std::shared_ptr<network::PacketProcess> process)
-    {
-        _packetProcess = process;
     }
     
 }

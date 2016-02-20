@@ -101,16 +101,12 @@ namespace realtrick
             PK_S_NOTIFY_STARTPOINT* notifyPacket = (PK_S_NOTIFY_STARTPOINT*)rowPacket;
             
             EntityHuman* human = EntityHuman::create(_gameMgr);
-            
             human->setWorldPosition(notifyPacket->position);
-            
+            human->setVisibleCrossHair(true);
+
             _gameMgr->registEntity(human, notifyPacket->validID, Z_ORDER_HUMAN);
             _gameMgr->getGameWorld()->setPlayerPtr(human);
             _gameMgr->setPlayer(human);
-            
-            human->setVisibleCrossHair(true);
-            _gameMgr->getGameWorld()->displayGame();
-            
             
             log("player position: %f %f", human->getPosition().x, human->getPosition().y);
             

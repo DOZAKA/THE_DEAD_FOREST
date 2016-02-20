@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "CocosGUI.h"
 #include "PacketProcess.h"
+
 namespace realtrick
 {
     
@@ -23,14 +24,13 @@ namespace realtrick
     class WeaponStatusEx;
     class OcculusionBuilder;
     class Camera2D;
+    class GameFlow;
     
     namespace userinterface
     {
         class ButtonHolder;
         class Inventory;
     }
-    
-
     
     class GameWorld : public cocos2d::Layer
     {
@@ -73,8 +73,6 @@ namespace realtrick
         
         void displayGame();
         
-        void setPacketProcess(std::shared_ptr<network::PacketProcess> process);
-        
     private:
         
         cocos2d::Size                       _winSize;
@@ -103,7 +101,7 @@ namespace realtrick
         
         userinterface::Inventory*           _inventory;
         
-        std::shared_ptr<network::PacketProcess>     _packetProcess;
+        GameFlow*                           _gameFlow;
     
     };
     

@@ -77,7 +77,7 @@ namespace realtrick
         
         void update(float dt);
         
-        void loadGameMap(const char* fileName);
+        void loadGameMapWithSingle(const char* fileName);
         
         void loadGameMapWithNetwork(const char* fileName);
         

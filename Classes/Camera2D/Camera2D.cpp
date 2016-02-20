@@ -37,8 +37,7 @@ namespace realtrick
     _isPaused(true)
     {}
     
-    
-    
+
     Camera2D::~Camera2D()
     {
     }
@@ -55,6 +54,7 @@ namespace realtrick
         CC_SAFE_DELETE(ret);
         return nullptr;
     }
+    
     
     bool Camera2D::init()
     {
@@ -179,6 +179,7 @@ namespace realtrick
         Node::visit(renderer, parentTransform, parentFlags);
     }
     
+    
     void Camera2D::setZoom(float zoomFactor)
     {
         _world->getDebugNode()->setScale(zoomFactor);
@@ -187,6 +188,11 @@ namespace realtrick
     }
  
 }
+
+
+
+
+
 
 
 
