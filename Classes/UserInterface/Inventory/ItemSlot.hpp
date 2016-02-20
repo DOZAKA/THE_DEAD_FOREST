@@ -26,7 +26,9 @@ namespace realtrick
         private:
             
             bool init(const char* normal, const char* selected, cocos2d::ui::Widget::TextureResType texType);
+            
             ItemSlot();
+            
             virtual ~ItemSlot();
             
         };
