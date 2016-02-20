@@ -44,11 +44,13 @@ namespace realtrick
             
         }
         
+        
         PacketProcess::PacketProcess(GameManager* gameMgr)
         {
             _gameMgr = gameMgr;
             registSubPacketFunc();
         }
+        
         
         void PacketProcess::packetExecute(Packet* packet)
         {
@@ -56,11 +58,13 @@ namespace realtrick
             runFunction(packet);
         }
         
+        
         void PacketProcess::S_REQ_HEARTBEAT(Packet* rowPacket)
         {
             PK_C_ANS_HEARTBEAT packet;
             Network::getInstance().sendPacket(&packet);
         }
+        
         
         void PacketProcess::S_NOTIFY_FIXED_UPDATE_BUNCH(Packet* rowPacket)
         {
@@ -76,6 +80,7 @@ namespace realtrick
             
             delete packet;
         }
+        
         
         void PacketProcess::S_NOTIFY_FIXED_UPDATE(PK_S_NOTIFY_FIXED_UPDATE rowPacket)
         {
@@ -237,8 +242,9 @@ namespace realtrick
             _isNetworkReady = true;
             
         }
+        
+        
     }
-    
 }
 
 

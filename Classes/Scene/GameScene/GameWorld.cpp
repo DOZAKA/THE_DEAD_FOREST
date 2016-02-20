@@ -68,6 +68,7 @@ namespace realtrick
         return true;
     }
     
+    
     void GameWorld::onEnter()
     {
         
@@ -81,7 +82,6 @@ namespace realtrick
         //                             game camera                  inventory   joystick   circular bezel        (depth 2)
         //                                  |
         //       static node   dynamic node   normal node    occulusion node                                     (depth 3)
-        //
         //
         
         prepareToStart(false);
