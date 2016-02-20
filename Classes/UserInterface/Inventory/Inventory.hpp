@@ -18,6 +18,16 @@ namespace realtrick
         class Inventory : cocos2d::Node
         {
             
+        public:
+            
+            static Inventory* create();
+            
+        private:
+            
+            Inventory();
+            virtual ~Inventory();
+            bool init() override;
+            
         };
         
     }
