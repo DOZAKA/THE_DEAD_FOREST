@@ -26,8 +26,13 @@ namespace realtrick
             
         private:
             
+            cocos2d::ui::ImageView*         _backgroundView;
             cocos2d::ui::ScrollView*        _slotScrollView;
             std::vector<ItemSlot*>          _slots;
+            
+            cocos2d::Size                   _slotSize;
+            int                             _numOfSlotX;
+            int                             _numOfSlotY;
             
         private:
             
