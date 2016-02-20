@@ -17,7 +17,9 @@ namespace realtrick
         JOYSTICK_CONTROLED = 0,
         RELOAD_WEAPON,
         RUN_BACK_DEAD,
-        RUN_FRONT_DEAD
+        RUN_FRONT_DEAD,
+        SHOW_NEXT_ANIMATION_FRAME,
+        SHOW_PREV_ANIMATION_FRAME
     };
         
     enum JoystickMessageTypes

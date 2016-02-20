@@ -103,7 +103,7 @@ namespace realtrick
     {
         ItemGlock17* item = ItemGlock17::create(_gameMgr, getInGameFrameName_n().c_str(), getInGameFrameName_s().c_str(), getInSlotFrameName().c_str(), ui::Widget::TextureResType::PLIST);
         item->setAmount( getAmount() );
-        item->setNumOfLeftRounds(getNumOfLeftRounds());
+        item->setNumOfLeftRounds( getNumOfLeftRounds() );
         item->setPosition(Vec2(_owner->getPosition().x + 50.0f, _owner->getPosition().y));
         _gameMgr->registEntity(item, _gameMgr->getNextValidID(), Z_ORDER_ITEMS);
     }

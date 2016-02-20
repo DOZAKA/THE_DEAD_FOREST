@@ -13,7 +13,6 @@
 
 #include "MessageTypes.hpp"
 
-
 namespace realtrick
 {
     
