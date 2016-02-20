@@ -11,7 +11,7 @@
 
 #include "cocos2d.h"
 #include "CocosGUI.h"
-
+#include "PacketProcess.h"
 namespace realtrick
 {
     
@@ -73,8 +73,7 @@ namespace realtrick
         
         void displayGame();
         
-        void setPacketProcess();
-        
+        void setPacketProcess(std::shared_ptr<network::PacketProcess> process);
     private:
         
         cocos2d::Size                       _winSize;
@@ -102,6 +101,8 @@ namespace realtrick
         userinterface::ButtonHolder*        _buttonHolder;
         
         userinterface::Inventory*           _inventory;
+        
+        std::shared_ptr<network::PacketProcess>     _packetProcess;
         
         
     };

@@ -12,9 +12,6 @@
 #include "GameWorld.hpp"
 #include "Camera2D.hpp"
 
-#include "PacketQueue.h"
-#include "PacketClass.h"
-
 using namespace cocos2d;
 
 namespace realtrick
@@ -57,8 +54,7 @@ namespace realtrick
     _cellSpace(nullptr),
     _gameMap(nullptr),
     _gameCamera(camera),
-    _debugNode(nullptr),
-    _packetProcess(nullptr)
+    _debugNode(nullptr)
     {
         _winSize = cocos2d::Director::getInstance()->getVisibleSize();
     }
@@ -335,12 +331,6 @@ namespace realtrick
     cocos2d::Vec2 GameManager::worldToLocal(const cocos2d::Vec2& p, const cocos2d::Vec2& camera) const
     {
         return p - camera;
-    }
-    
-    
-    void GameManager::setPacketProcess(std::shared_ptr<network::PacketProcess> process)
-    {
-        _packetProcess = process;
     }
     
 }

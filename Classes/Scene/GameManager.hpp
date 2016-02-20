@@ -16,7 +16,6 @@
 #include "CellSpacePartition.hpp"
 #include "GameMap.hpp"
 #include "EntityHuman.hpp"
-#include "PacketProcess.h"
 
 #define Z_ORDER_GAME_MAP    0
 #define Z_ORDER_SHADOW      1
@@ -95,9 +94,7 @@ namespace realtrick
         cocos2d::Vec2 worldToLocal(const cocos2d::Vec2& p) const ;
         
         cocos2d::Vec2 worldToLocal(const cocos2d::Vec2& p, const cocos2d::Vec2& camera) const ;
-        
-        void setPacketProcess(std::shared_ptr<network::PacketProcess> process);
-        
+
     private:
         
         GameWorld*                                  _gameWorld;
@@ -117,9 +114,7 @@ namespace realtrick
         cocos2d::DrawNode*                          _debugNode;
         
         static int                                  _nextValidID;
-        
-        std::shared_ptr<network::PacketProcess>     _packetProcess;
-        
+
     private:
         
         void _setGameWorld(GameWorld* world)            { _gameWorld = world; }
