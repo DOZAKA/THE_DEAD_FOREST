@@ -89,7 +89,7 @@ namespace realtrick
     }
     
     
-    void GameManager::loadGameMap(const char* fileName)
+    void GameManager::loadGameMapWithSingle(const char* fileName)
     {
         if( _gameMap != nullptr )
         {
