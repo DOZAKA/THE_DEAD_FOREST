@@ -99,7 +99,7 @@ namespace realtrick
         // is use debug?
         _debugNode->setVisible(Prm.getValueAsBool("useDebug"));
         
-        addChild(_debugNode, numeric_limits<int>::max());
+        addChild(_debugNode, numeric_limits<int>::max() - 1);
         
         _clipRectNode = ClippingRectangleNode::create(cocos2d::Rect(0, 0, _winSize.width, _winSize.height));
         addChild(_clipRectNode);
@@ -164,7 +164,7 @@ namespace realtrick
     {
         
         _uiLayer = Sprite::create();
-        this->addChild(_uiLayer, Z_ORDER_UI);
+        addChild(_uiLayer, numeric_limits<int>::max());
         
         _moveJoystick = JoystickEx::create("handler.png", "handler.png", cocos2d::ui::Widget::TextureResType::PLIST);
         _moveJoystick->setJoystickPad("pad.png");

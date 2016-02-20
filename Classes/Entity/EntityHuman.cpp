@@ -36,13 +36,15 @@ namespace realtrick
     _isAlive(false),
     _isFovOn(false),
     _bodyRot(0.0f),
-    _walkSpeed(75.0f),
-    _runSpeed(200.0f),
+    _walkSpeed(Prm.getValueAsFloat("walkSpeed")),
+    _runSpeed(Prm.getValueAsFloat("runSpeed")),
     _noEventTime(0.0f),
     _enduranceTime(0.0f)
     {
         setEntityType(ENTITY_HUMAN);
-        setBoundingRadius(20.0f);
+        setBoundingRadius(Prm.getValueAsFloat("boundingRadius"));
+        setTurnSpeed(Prm.getValueAsFloat("turnSpeed"));
+        setMaxSpeed(Prm.getValueAsFloat("maxSpeed"));
     }
     
     
