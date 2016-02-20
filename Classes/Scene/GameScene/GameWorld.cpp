@@ -47,7 +47,7 @@ namespace realtrick
     }
     
     
-    
+
     bool GameWorld::init()
     {
         if ( !Layer::init() )
@@ -69,6 +69,7 @@ namespace realtrick
     }
     
     
+    
     void GameWorld::onEnter()
     {
         
@@ -88,6 +89,7 @@ namespace realtrick
         
         Layer::onEnter();
     }
+    
     
     
     void GameWorld::prepareToStart(bool network)
@@ -122,8 +124,8 @@ namespace realtrick
         {
             loadGameDataByFile();
         }
-        
     }
+    
     
     
     void GameWorld::loadGameDataByNetwork()
@@ -137,8 +139,10 @@ namespace realtrick
         reqPacket.pid = ClientGenerator::getInstance().id();
         reqPacket.roomID = 1;
         
-        Network::getInstance().sendPacket(&reqPacket);
+       Network::getInstance().sendPacket(&reqPacket);
     }
+    
+    
     
     void GameWorld::loadGameDataByFile()
     {
@@ -146,8 +150,9 @@ namespace realtrick
         setPlayerPtr(_gameMgr->getPlayerPtr());
         // 화면 출력
         displayGame();
-        
     }
+    
+    
     
     void GameWorld::displayGame()
     {
@@ -267,7 +272,6 @@ namespace realtrick
         _uiLayer->addChild(_attButton);
         
         
-        
         _weaponStatus = WeaponStatusEx::create("reload.png", "reload.png", ui::Widget::TextureResType::LOCAL);
         _weaponStatus->setPosition(Vec2(_winSize.width - 100.0f, _winSize.height - 100.0f));
         _weaponStatus->setReloadButtonCallback([&, this](Ref* ref, ui::Widget::TouchEventType type){
@@ -303,7 +307,25 @@ namespace realtrick
         _buttonHolder->setButtonSize(Size(92.0f, 92.0f));
         addChild(_buttonHolder);
         
-        // 흠 무엇을 할까 !!!!!
+        // inventory를 눌렀을 때,
+        _buttonHolder->addInventoryButtonEvent(1, [&](Ref* ref, ui::CheckBox::EventType type){
+            
+            switch ( type )
+            {
+                case ui::CheckBox::EventType::SELECTED:
+                {
+                    log("inventory selected.");
+                    break;
+                }
+                case ui::CheckBox::EventType::UNSELECTED:
+                {
+                    log("inventory unselected.");
+                    break;
+                }
+                default: break;
+            }
+            
+        });
         
         
         auto hpBar = Sprite::createWithSpriteFrameName("hpBar.png");
@@ -330,6 +352,8 @@ namespace realtrick
         this->scheduleUpdate();
     }
     
+
+    
     void GameWorld::update(float dt)
     {
         _debugNode->clear();
@@ -346,3 +370,13 @@ namespace realtrick
     }
     
 }
+
+
+
+
+
+
+
+
+
+

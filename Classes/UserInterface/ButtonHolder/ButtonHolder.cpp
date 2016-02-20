@@ -50,32 +50,43 @@ namespace realtrick
                 return false;
             }
             
-            _status = ui::CheckBox::create("status.png", "status.png");
+            
+            _status = ui::CheckBox::create("status.png", "status_s.png");
             _status->setPosition(Vec2(-100, -50));
-            _status->addEventListener([](Ref* ref, const ui::CheckBox::EventType& type){
+            _status->addEventListener([this](Ref* ref, const ui::CheckBox::EventType& type){
                 
-                switch ( type )
+                for( const auto& callback : _statusButtonCallbacks )
                 {
-                    case ui::CheckBox::EventType::SELECTED:
-                    {
-                        break;
-                    }
-                    case ui::CheckBox::EventType::UNSELECTED:
-                    {
-                        break;
-                    }
-                    default: break;
+                    callback.second(ref, type);
                 }
                 
             });
             addChild(_status);
             
-            _inventory = ui::CheckBox::create("inventory.png", "inventory.png");
+            
+            _inventory = ui::CheckBox::create("inventory.png", "inventory_s.png");
             _inventory->setPosition(Vec2(0, 0));
+            _inventory->addEventListener([this](Ref* ref, const ui::CheckBox::EventType& type){
+                
+                for( const auto& callback : _inventoryButtonCallbacks )
+                {
+                    callback.second(ref, type);
+                }
+                
+            });
             addChild(_inventory);
             
-            _setting = ui::CheckBox::create("setting.png", "setting.png");
+            
+            _setting = ui::CheckBox::create("setting.png", "setting_s.png");
             _setting->setPosition(Vec2(100, -50));
+            _setting->addEventListener([this](Ref* ref, const ui::CheckBox::EventType& type){
+                
+                for( const auto& callback : _settingButtonCallbacks )
+                {
+                    callback.second(ref, type);
+                }
+                
+            });
             addChild(_setting);
             
             return true;
@@ -88,6 +99,7 @@ namespace realtrick
             _inventory->setScale(size.width / _inventory->getContentSize().width, size.height / _inventory->getContentSize().height);
             _setting->setScale(size.width / _setting->getContentSize().width, size.height / _setting->getContentSize().height);
         }
+        
       
         void ButtonHolder::_disableButtons()
         {
@@ -95,6 +107,25 @@ namespace realtrick
             _inventory->setSelected(false);
             _setting->setSelected(false);
         }
+        
+        
+        void ButtonHolder::addStausButtonEvent(int key, const cocos2d::ui::CheckBox::ccCheckBoxCallback& callback)
+        {
+            _statusButtonCallbacks.insert(std::make_pair(key, callback));
+        }
+        
+        
+        void ButtonHolder::addInventoryButtonEvent(int key, const cocos2d::ui::CheckBox::ccCheckBoxCallback& callback)
+        {
+            _inventoryButtonCallbacks.insert(std::make_pair(key, callback));
+        }
+        
+        
+        void ButtonHolder::addSettingButtonEvent(int key, const cocos2d::ui::CheckBox::ccCheckBoxCallback& callback)
+        {
+            _settingButtonCallbacks.insert(std::make_pair(key, callback));
+        }
+        
         
     }
 }
