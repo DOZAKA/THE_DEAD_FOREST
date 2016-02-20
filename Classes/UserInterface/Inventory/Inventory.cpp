@@ -7,11 +7,14 @@
 //
 
 #include "Inventory.hpp"
+#include "ParamLoader.hpp"
 
 namespace realtrick
 {
     namespace userinterface
     {
+        
+        using namespace cocos2d;
         
         Inventory::Inventory()
         {}
@@ -40,6 +43,15 @@ namespace realtrick
         {
             if ( !Node::init() )
                 return false;
+            
+            _slotScrollView = ui::ScrollView::create();
+            _slotScrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
+            _slotScrollView->setContentSize(Size(Prm.getValueAsFloat("inventoryScrollViewWidth"), Prm.getValueAsFloat("inventoryScrollViewHeight")));
+            addChild(_slotScrollView);
+            
+            _slotScrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
+            _slotScrollView->setBackGroundColor(Color3B::WHITE);
+            _slotScrollView->setScrollBarEnabled(true);
             
             return true;
         }

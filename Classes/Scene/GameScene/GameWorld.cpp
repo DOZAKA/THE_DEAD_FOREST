@@ -21,8 +21,10 @@
 #include "GameMap.hpp"
 #include "ClipperWrapper.hpp"
 #include "ButtonHolder.hpp"
+#include "Inventory.hpp"
 
 #include "Network.h"
+
 
 
 using namespace realtrick::network;
@@ -315,17 +317,26 @@ namespace realtrick
                 case ui::CheckBox::EventType::SELECTED:
                 {
                     log("inventory selected.");
+                    _inventory->setVisible(true);
                     break;
                 }
                 case ui::CheckBox::EventType::UNSELECTED:
                 {
                     log("inventory unselected.");
+                    _inventory->setVisible(false);
                     break;
                 }
                 default: break;
             }
             
         });
+        
+        
+        _inventory = userinterface::Inventory::create();
+        _inventory->setVisible(false);
+        _inventory->setPosition(Vec2(_winSize.width / 2, _winSize.height * 0.6f));
+        _uiLayer->addChild(_inventory);
+        
         
         
         auto hpBar = Sprite::createWithSpriteFrameName("hpBar.png");

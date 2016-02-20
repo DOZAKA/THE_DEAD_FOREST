@@ -27,6 +27,7 @@ namespace realtrick
     namespace userinterface
     {
         class ButtonHolder;
+        class Inventory;
     }
     
 
@@ -99,6 +100,9 @@ namespace realtrick
         cocos2d::DrawNode*                  _debugNode;
         
         userinterface::ButtonHolder*        _buttonHolder;
+        
+        userinterface::Inventory*           _inventory;
+        
         
     };
     

@@ -9,13 +9,15 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "CocosGUI.h"
 
 namespace realtrick
 {
     namespace userinterface
     {
+        class ItemSlot;
         
-        class Inventory : cocos2d::Node
+        class Inventory : public cocos2d::Node
         {
             
         public:
@@ -24,8 +26,15 @@ namespace realtrick
             
         private:
             
+            cocos2d::ui::ScrollView*        _slotScrollView;
+            std::vector<ItemSlot*>          _slots;
+            
+        private:
+            
             Inventory();
+            
             virtual ~Inventory();
+            
             bool init() override;
             
         };
