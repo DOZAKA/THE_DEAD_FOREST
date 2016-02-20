@@ -22,7 +22,8 @@ namespace realtrick
         _slotScrollView(nullptr),
         _slotSize(Size(Prm.getValueAsFloat("slotWidth"), Prm.getValueAsFloat("slotHeight"))),
         _numOfSlotX(Prm.getValueAsInt("numOfSlotX")),
-        _numOfSlotY(Prm.getValueAsInt("numOfSlotY"))
+        _numOfSlotY(Prm.getValueAsInt("numOfSlotY")),
+        _isScrolling(false)
         {}
         
         
@@ -62,22 +63,47 @@ namespace realtrick
             _slotScrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
             _slotScrollView->setBackGroundColor(Color3B::YELLOW);
             _slotScrollView->setScrollBarEnabled(true);
+            _slotScrollView->addEventListener([&](Ref* ref, ui::ScrollView::EventType type){
+                
+                if ( type == ui::ScrollView::EventType::SCROLLING)
+                {
+                    _isScrolling = true;
+                }
+                else
+                {
+                    _isScrolling = false;
+                }
+                
+            });
             
             _slots.resize(_numOfSlotY);
-            for(int i = 0 ; i < _numOfSlotX ; ++ i)
+            for(int i = 0 ; i < _numOfSlotY ; ++ i)
             {
-                _slots.resize(i);
+                _slots[i].resize(_numOfSlotX);
             }
             
             for(int i = 0 ; i < _numOfSlotY ; ++ i)
             {
                 for(int j = 0 ; j < _numOfSlotX ; ++ j)
                 {
-                    auto slot = ItemSlot::create("slotView_n.png", "slotView_s.png", ui::Widget::TextureResType::LOCAL);
+                    ItemSlot* slot = ItemSlot::create("slotView_n.png", "slotView_s.png", ui::Widget::TextureResType::LOCAL);
                     slot->setAnchorPoint(Vec2::ZERO);
                     slot->setPosition(Vec2((INVENTORY_PAD * (j + 1)) + (j * _slotSize.width),
                                            _slotScrollView->getInnerContainerSize().height - ((i + 1) * INVENTORY_PAD + ((i + 1) * _slotSize.height)) ));
+                    slot->addTouchCallback([&](Ref* ref, ui::Widget::TouchEventType type){
+                        
+                        ItemSlot* self = (ItemSlot*)ref;
+                        
+                        if ( _isScrolling ) return ;
+                        
+                        if ( type == ui::Widget::TouchEventType::ENDED )
+                        {
+                            self->toggleSelected();
+                        }
+                        
+                    });
                     _slotScrollView->addChild(slot);
+                    _slots[i][j] = slot;
                 }
             }
             

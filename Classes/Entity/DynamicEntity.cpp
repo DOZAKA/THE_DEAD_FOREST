@@ -24,8 +24,8 @@ namespace realtrick
     _force(Vec2::ZERO),
     _acceleration(Vec2::ZERO),
     _mass(1.0f),
-    _maxSpeed(100.0f),
-    _turnSpeed(270.0f),
+    _maxSpeed(0.0f),
+    _turnSpeed(0.0f),
     _boundingRadius(0.0f)
     {
         ADD_FAMILY_MASK(_familyMask, DYNAMIC_ENTITY);

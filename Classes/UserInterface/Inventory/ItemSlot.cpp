@@ -15,7 +15,9 @@ namespace realtrick
         
         using namespace cocos2d;
         
-        ItemSlot::ItemSlot()
+        ItemSlot::ItemSlot() :
+        _selectedImage(nullptr),
+        _isSelected(false)
         {}
         
         
@@ -44,8 +46,25 @@ namespace realtrick
                 return false;
             }
             
+            loadTextures(normal, normal, "", texType);
+            setZoomScale(1.0f);
+            
+            if ( texType == ui::Widget::TextureResType::LOCAL )
+                _selectedImage = Sprite::create(selected);
+            else
+                _selectedImage = Sprite::createWithSpriteFrameName(selected);
+            
+            _selectedImage->setPosition(getContentSize() / 2);
+            addChild(_selectedImage);
+            
             setSelected(false);
-            loadTextures(normal, "", selected, "", "", texType);
+            
+            addTouchEventListener([this](Ref* ref, ui::Widget::TouchEventType type){
+                
+                for ( const auto& callback : _touchCallbacks )
+                    callback(ref, type);
+                
+            });
             
             return true;
         }
