@@ -138,16 +138,12 @@ namespace realtrick
         reqPacket.roomID = 1;
         
         Network::getInstance().sendPacket(&reqPacket);
-        
-        //
-        // 모두 초기화되면
-        // displayGame() 를 호출.
-        //
     }
     
     void GameWorld::loadGameDataByFile()
     {
         _gameMgr->loadGameMap("jsonData.txt");
+        setPlayerPtr(_gameMgr->getPlayerPtr());
         // 화면 출력
         displayGame();
         
