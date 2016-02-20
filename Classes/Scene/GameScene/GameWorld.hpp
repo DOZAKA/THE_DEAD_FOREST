@@ -29,6 +29,8 @@ namespace realtrick
         class ButtonHolder;
     }
     
+
+    
     class GameWorld : public cocos2d::Layer
     {
         
@@ -100,8 +102,13 @@ namespace realtrick
         
     };
     
-    
 }
+
+
+
+
+
+
 
 
 
