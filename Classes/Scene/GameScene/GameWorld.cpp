@@ -24,7 +24,8 @@
 #include "Inventory.hpp"
 
 #include "Network.h"
-
+#include "PacketQueue.h"
+#include "PacketClass.h"
 
 
 using namespace realtrick::network;
@@ -132,16 +133,26 @@ namespace realtrick
     
     void GameWorld::loadGameDataByNetwork()
     {
-        _gameMgr->loadGameMapWithNetwork("jsonData.txt");
-        _gameMgr->setPacketProcess(std::make_shared<PacketProcess>(_gameMgr));
+        setPacketProcess(std::make_shared<PacketProcess>(_gameMgr));
         
-        while(!(network::Network::getInstance().isConnection()));
+        while(!(Network::getInstance().isConnection()));
         
         PK_C_REQ_REGIST reqPacket;
         reqPacket.pid = ClientGenerator::getInstance().id();
         reqPacket.roomID = 1;
         
-       Network::getInstance().sendPacket(&reqPacket);
+        Network::getInstance().sendPacket(&reqPacket);
+        
+        
+        while( !_packetProcess->isNetworkReady() )
+        {
+            network::Packet* packet;
+            if(PacketQueue::getInstance().pop(packet))
+            {
+                _packetProcess->packetExecute(packet);
+            }
+        }
+
     }
     
     
@@ -367,6 +378,13 @@ namespace realtrick
     
     void GameWorld::update(float dt)
     {
+        
+        Packet* packet;
+        if(PacketQueue::getInstance().pop(packet))
+        {
+            _packetProcess->packetExecute(packet);
+        }
+
         _debugNode->clear();
         Vec2 oldCameraPos = _gameCamera->getCameraPos();
         pair<int, int> oldIndex = _gameMgr->getGameMap()->getModerateTileIndex(oldCameraPos);
@@ -380,6 +398,10 @@ namespace realtrick
         Dispatch.dispatchDelayedMessages();
     }
     
+    void GameWorld::setPacketProcess(std::shared_ptr<network::PacketProcess> process)
+    {
+        _packetProcess = process;
+    }
 }
 
 
