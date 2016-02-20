@@ -12,7 +12,7 @@ namespace realtrick
 {
     namespace userinterface
     {
-     
+        
         using namespace cocos2d;
         
         ItemSlot::ItemSlot()
@@ -39,23 +39,15 @@ namespace realtrick
         
         bool ItemSlot::init(const char* normal, const char* selected, cocos2d::ui::Widget::TextureResType texType)
         {
-            bool ret = true;
-            do
+            if ( !Widget::init() )
             {
-                if (!Widget::init())
-                {
-                    ret = false;
-                    break;
-                }
-                setSelected(false);
-                loadTextures(normal, "", selected, "", "", texType);
-            } while (0);
+                return false;
+            }
             
+            setSelected(false);
+            loadTextures(normal, "", selected, "", "", texType);
             
-            
-            
-            
-            return ret;
+            return true;
         }
         
     }
