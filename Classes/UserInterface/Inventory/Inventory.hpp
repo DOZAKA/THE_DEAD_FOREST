@@ -11,6 +11,8 @@
 #include "cocos2d.h"
 #include "CocosGUI.h"
 
+#define INVENTORY_PAD 20.0f
+
 namespace realtrick
 {
     namespace userinterface
@@ -26,13 +28,13 @@ namespace realtrick
             
         private:
             
-            cocos2d::ui::ImageView*         _backgroundView;
-            cocos2d::ui::ScrollView*        _slotScrollView;
-            std::vector<ItemSlot*>          _slots;
+            cocos2d::ui::ImageView*                 _backgroundView;
+            cocos2d::ui::ScrollView*                _slotScrollView;
+            std::vector<std::vector<ItemSlot*>>     _slots;
             
-            cocos2d::Size                   _slotSize;
-            int                             _numOfSlotX;
-            int                             _numOfSlotY;
+            cocos2d::Size                           _slotSize;
+            int                                     _numOfSlotX;
+            int                                     _numOfSlotY;
             
         private:
             

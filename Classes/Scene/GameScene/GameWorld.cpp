@@ -40,7 +40,6 @@ namespace realtrick
     }
     
     
-    
     Scene* GameWorld::createScene()
     {
         auto scene = Scene::create();
@@ -48,7 +47,6 @@ namespace realtrick
         scene->addChild(layer);
         return scene;
     }
-    
     
 
     bool GameWorld::init()
@@ -72,7 +70,6 @@ namespace realtrick
     }
     
     
-    
     void GameWorld::onEnter()
     {
         
@@ -92,7 +89,6 @@ namespace realtrick
         
         Layer::onEnter();
     }
-    
     
     
     void GameWorld::prepareToStart(bool network)
@@ -130,7 +126,6 @@ namespace realtrick
     }
     
     
-    
     void GameWorld::loadGameDataByNetwork()
     {
         setPacketProcess(std::make_shared<PacketProcess>(_gameMgr));
@@ -156,7 +151,6 @@ namespace realtrick
     }
     
     
-    
     void GameWorld::loadGameDataByFile()
     {
         _gameMgr->loadGameMap("jsonData.txt");
@@ -164,7 +158,6 @@ namespace realtrick
         // 화면 출력
         displayGame();
     }
-    
     
     
     void GameWorld::displayGame()
@@ -178,7 +171,7 @@ namespace realtrick
         _moveJoystick->setMaxMovableRadius(50.0f);
         _moveJoystick->setPosition(Vec2(200, 200));
         _moveJoystick->setRotationType(realtrick::JoystickEx::RotationType::ROTATION_8);
-        _moveJoystick->setClickCallback([&, this](Ref* ref, ui::Widget::TouchEventType type){
+        _moveJoystick->setClickCallback([&, this](Ref* ref, ui::Widget::TouchEventType type) {
             
             switch (type)
             {
@@ -373,7 +366,6 @@ namespace realtrick
         
         this->scheduleUpdate();
     }
-    
 
     
     void GameWorld::update(float dt)
@@ -398,10 +390,12 @@ namespace realtrick
         Dispatch.dispatchDelayedMessages();
     }
     
+    
     void GameWorld::setPacketProcess(std::shared_ptr<network::PacketProcess> process)
     {
         _packetProcess = process;
     }
+    
 }
 
 

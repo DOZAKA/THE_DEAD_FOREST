@@ -74,6 +74,7 @@ namespace realtrick
         void displayGame();
         
         void setPacketProcess(std::shared_ptr<network::PacketProcess> process);
+        
     private:
         
         cocos2d::Size                       _winSize;
@@ -103,8 +104,7 @@ namespace realtrick
         userinterface::Inventory*           _inventory;
         
         std::shared_ptr<network::PacketProcess>     _packetProcess;
-        
-        
+    
     };
     
 }
