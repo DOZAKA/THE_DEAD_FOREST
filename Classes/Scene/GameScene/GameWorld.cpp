@@ -89,7 +89,7 @@ namespace realtrick
         //       static node   dynamic node   normal node    occulusion node                                     (depth 3)
         //
         
-        prepareToStart(true);
+        prepareToStart(false);
         Layer::onEnter();
     }
     

@@ -44,7 +44,7 @@ namespace realtrick
         }
         else if( isMasked(inputMask, (int)JoystickMessageTypes::MOVE) )
         {
-            human->setVelocity( moving * 150.0f );
+            human->setVelocity( moving * human->getWalkSpeed() );
         }
         else
         {
