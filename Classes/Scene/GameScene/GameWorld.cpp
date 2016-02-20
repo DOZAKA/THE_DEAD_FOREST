@@ -345,7 +345,7 @@ namespace realtrick
         
         _inventory = userinterface::Inventory::create();
         _inventory->setVisible(false);
-        _inventory->setPosition(Vec2(_winSize.width / 2, _winSize.height * 0.6f));
+        _inventory->setPosition(Vec2(_winSize.width / 2, _winSize.height * 0.55f));
         _uiLayer->addChild(_inventory);
         
         
