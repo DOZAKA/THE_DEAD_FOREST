@@ -62,6 +62,8 @@ namespace realtrick
             
             void _useItem();
             
+            void _releaseWeapon();
+            
         };
         
     }

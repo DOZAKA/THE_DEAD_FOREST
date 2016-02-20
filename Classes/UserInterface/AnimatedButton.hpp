@@ -26,7 +26,7 @@ namespace realtrick
             
             static AnimatedButton* create(const char* normal, const char* selected, cocos2d::ui::Widget::TextureResType type = cocos2d::ui::Widget::TextureResType::LOCAL);
             
-            bool isActive() const { return _isActive; }
+            bool isActive() const { return (this->getOpacity() == 255); }
             
             void setAnimationFrameNames(const std::vector<std::string>& frameNames) { _animationFrameNames = frameNames; }
             
@@ -34,9 +34,9 @@ namespace realtrick
             
             float getAnimationInterval() const { return _animInterval; }
             
-            void show() { _commandStack.push(ActionCommand::SHOW); }
+            void show();
             
-            void hide() { _commandStack.push(ActionCommand::HIDE); }
+            void hide();
             
         private:
             
@@ -46,9 +46,7 @@ namespace realtrick
             
             float                                   _animInterval;
             
-            bool                                    _isActive;
-            
-            std::stack<ActionCommand>               _commandStack;
+            std::list<ActionCommand>                _commandQueue;
             
         private:
             

@@ -80,13 +80,19 @@ namespace realtrick
         
         void ItemSlot::removeItem()
         {
-            
+            _item->discard();
         }
         
         
         void ItemSlot::_useItem()
         {
-            
+            _item->use();
+        }
+        
+        
+        void ItemSlot::_releaseWeapon()
+        {
+            _item->releaseWeapon();
         }
         
     }
