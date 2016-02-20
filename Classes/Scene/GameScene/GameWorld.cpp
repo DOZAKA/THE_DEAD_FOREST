@@ -117,12 +117,10 @@ namespace realtrick
         if ( network )
         {
             loadGameDataByNetwork();
-            _gameMgr->loadGameMapWithNetwork("jsonData.txt");
         }
         else
         {
             loadGameDataByFile();
-            _gameMgr->loadGameMap("jsonData.txt");
         }
         
     }
@@ -130,6 +128,7 @@ namespace realtrick
     
     void GameWorld::loadGameDataByNetwork()
     {
+        _gameMgr->loadGameMapWithNetwork("jsonData.txt");
         _gameMgr->setPacketProcess(std::make_shared<PacketProcess>(_gameMgr));
         
         while(!(network::Network::getInstance().isConnection()));
@@ -148,9 +147,8 @@ namespace realtrick
     
     void GameWorld::loadGameDataByFile()
     {
-        setPlayerPtr( _gameMgr->getPlayerPtr() );
-        
-        // 화면 출력 test22
+        _gameMgr->loadGameMap("jsonData.txt");
+        // 화면 출력
         displayGame();
         
     }
