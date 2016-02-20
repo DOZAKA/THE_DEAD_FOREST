@@ -9,8 +9,6 @@
 #include "TestScene.hpp"
 #include "Items.hpp"
 #include "GameManager.hpp"
-#include "AnimatedButton.hpp"
-
 #include "LightEffect.hpp"
 #include "EffectSprite.hpp"
 #include "Lights.hpp"

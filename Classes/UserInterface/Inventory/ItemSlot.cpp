@@ -7,6 +7,7 @@
 //
 
 #include "ItemSlot.hpp"
+#include "ItemBase.hpp"
 
 namespace realtrick
 {
@@ -17,7 +18,8 @@ namespace realtrick
         
         ItemSlot::ItemSlot() :
         _selectedImage(nullptr),
-        _isSelected(false)
+        _isSelected(false),
+        _item(nullptr)
         {}
         
         
@@ -57,7 +59,7 @@ namespace realtrick
             _selectedImage->setPosition(getContentSize() / 2);
             addChild(_selectedImage);
             
-            setSelected(false);
+            _setSelected(false);
             
             addTouchEventListener([this](Ref* ref, ui::Widget::TouchEventType type){
                 
@@ -67,6 +69,24 @@ namespace realtrick
             });
             
             return true;
+        }
+        
+        
+        void ItemSlot::setItem(ItemBase *item)
+        {
+            _item = item;
+        }
+        
+        
+        void ItemSlot::removeItem()
+        {
+            
+        }
+        
+        
+        void ItemSlot::_useItem()
+        {
+            
         }
         
     }
