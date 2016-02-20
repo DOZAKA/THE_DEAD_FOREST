@@ -98,6 +98,7 @@ namespace realtrick
                         
                         if ( type == ui::Widget::TouchEventType::ENDED )
                         {
+                            _disableButtonsExcept(self);
                             self->toggleSelected();
                         }
                         
@@ -108,6 +109,19 @@ namespace realtrick
             }
             
             return true;
+        }
+        
+        void Inventory::_disableButtonsExcept(ItemSlot* exceptSlot)
+        {
+            for(int i = 0 ; i < _numOfSlotY ; ++i)
+            {
+                for(int j = 0 ; j < _numOfSlotX; ++ j)
+                {
+                    if ( _slots[i][j] == exceptSlot ) continue;
+                    
+                    _slots[i][j]->tryDisableSelected();
+                }
+            }
         }
         
     }

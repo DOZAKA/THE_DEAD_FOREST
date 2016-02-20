@@ -50,6 +50,8 @@ namespace realtrick
             
             bool init() override;
             
+            void _disableButtonsExcept(ItemSlot* exceptSlot);
+            
         };
         
     }
