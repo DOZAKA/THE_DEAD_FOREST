@@ -95,18 +95,16 @@ namespace realtrick
                                     {
                                         if (!ec)
                                         {
-                                            size_t offset = 0;
+                                            stream_size_t offset = 0;
                                             PacketType type[1] = { (PacketType)0, };
                                             memcpy((void*)type, (void*)_ioData.data(), sizeof(type));
                                             offset += sizeof(type);
                                             Packet* packet = PacketFactory::getInstance().getPacket(type[0]);
                                             
-                                            
                                             Stream stream((unsigned char*)(_ioData.data() + offset), _packetLength - offset);
                                             packet->decode(stream);
                                             
                                             PacketQueue::getInstance().push(packet);
-                                            
                                             
                                             doReadHeader();
                                         }

@@ -38,6 +38,7 @@ namespace realtrick
                     case PacketType::E_S_BROADCAST_JOYSTICK_MOVING_CHANGE:    return new PK_S_BROADCAST_JOYSTICK_MOVING_CHANGE();
                     case PacketType::E_C_REQ_BEZEL_MOVE_KEYDOWN:    return new PK_C_REQ_BEZEL_MOVE_KEYDOWN();
                     case PacketType::E_S_BROADCAST_BEZEL_MOVE_KEYDOWN:    return new PK_S_BROADCAST_BEZEL_MOVE_KEYDOWN();
+                    default: break;
                 }
                 return nullptr;
             }

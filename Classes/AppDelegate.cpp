@@ -62,8 +62,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
 
     
-//    auto scene = realtrick::TestScene::createScene();
-    auto scene = realtrick::GameWorld::createScene();
+    auto scene = realtrick::TestScene::createScene();
+//    auto scene = realtrick::GameWorld::createScene();
 //    auto scene = realtrick::RenderTargetTest::createScene();
 //    auto scene = realtrick::LightTest::createScene();
     

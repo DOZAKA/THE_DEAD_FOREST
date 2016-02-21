@@ -69,7 +69,6 @@ namespace realtrick
         
         _winSize = Director::getInstance()->getVisibleSize();
         
-        
         return true;
     }
     
@@ -100,8 +99,10 @@ namespace realtrick
         _debugNode->setPosition(_winSize/2);
         addChild(_debugNode, numeric_limits<int>::max() - 1);
         
+        
         // is use debug?
         _debugNode->setVisible(Prm.getValueAsBool("useDebug"));
+        
         
         //
         // 화면을 클리핑하기 위한 상위 객체. (이 노드에 붙는다면 화면 바깥은 안그려지게 된다)

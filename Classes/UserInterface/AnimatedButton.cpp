@@ -17,8 +17,7 @@ namespace realtrick
         
         AnimatedButton::AnimatedButton() :
         _currFrame(nullptr),
-        _animInterval(0.0f),
-        _isActive(false)
+        _animInterval(0.0f)
         {}
         
         
