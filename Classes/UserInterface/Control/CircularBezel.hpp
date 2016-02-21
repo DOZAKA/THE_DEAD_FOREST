@@ -11,7 +11,7 @@
 #include <functional>
 
 #include "cocos2d.h"
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 
 namespace realtrick
 {

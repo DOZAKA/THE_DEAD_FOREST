@@ -9,7 +9,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 
 #define INVENTORY_PAD 20.0f
 

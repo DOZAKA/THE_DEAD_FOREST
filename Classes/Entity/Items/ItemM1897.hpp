@@ -9,7 +9,7 @@
 #pragma once
 
 #include "WeaponBase.hpp"
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 
 namespace realtrick
 {

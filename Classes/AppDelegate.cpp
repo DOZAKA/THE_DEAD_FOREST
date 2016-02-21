@@ -61,9 +61,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     
 
-    
-    auto scene = realtrick::TestScene::createScene();
-//    auto scene = realtrick::GameWorld::createScene();
+
+      auto scene = realtrick::GameWorld::createScene();
+//    auto scene = realtrick::TestScene::createScene();
 //    auto scene = realtrick::RenderTargetTest::createScene();
 //    auto scene = realtrick::LightTest::createScene();
     

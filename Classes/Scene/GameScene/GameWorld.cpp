@@ -151,7 +151,7 @@ namespace realtrick
         _uiLayer = Sprite::create();
         addChild(_uiLayer, numeric_limits<int>::max());
 
-        
+
         //
         // Move Joystick
         //
@@ -163,7 +163,7 @@ namespace realtrick
         _moveJoystick->setChangedDirectionAndStatusCallback(_gameFlow->getMoveJoystickCallback());
         _uiLayer->addChild(_moveJoystick);
         
-        
+
         //
         // Bezel
         //
@@ -187,7 +187,7 @@ namespace realtrick
         _uiLayer->addChild(_attButton);
         
         
-        
+
         //
         // Current Weapon UI
         //
@@ -217,7 +217,7 @@ namespace realtrick
         });
         _uiLayer->addChild(_weaponStatus);
         
-        
+
         //
         // Button Holder
         //
@@ -248,7 +248,7 @@ namespace realtrick
             
         });
         
-        
+
         //
         // Inventory
         //
@@ -258,7 +258,7 @@ namespace realtrick
         _uiLayer->addChild(_inventory);
         
         
-        
+
         //
         // Hp System (Dummy)
         //
@@ -267,16 +267,16 @@ namespace realtrick
         hpBar->setScaleX(0.3f);
         hpBar->setPosition(_winSize.width * 0.07f, _winSize.height * 0.93f);
         _uiLayer->addChild(hpBar);
-        
+
         hpBar->runAction(RepeatForever::create(Sequence::create(FadeTo::create(0.5f, 0), FadeTo::create(0.5f, 255), nullptr)));
-        
+
         auto hpBundle = Sprite::createWithSpriteFrameName("hpBundle.png");
         hpBundle->setAnchorPoint(Vec2(0.0f, 0.5f));
         hpBundle->setPosition(_winSize.width * 0.07f, _winSize.height * 0.93f);
         _uiLayer->addChild(hpBundle);
         
         
-        
+
         // init game map
         _gameMgr->getGameMap()->updateChunk(_player->getWorldPosition());
         _gameCamera->setCameraPos(_player->getWorldPosition());

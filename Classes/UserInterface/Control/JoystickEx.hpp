@@ -12,7 +12,7 @@
 #include <functional>
 
 #include "cocos2d.h"
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 
 #define MAX_DOUBLE_CLICK_TOLERANCE_TIME                 0.25f
 

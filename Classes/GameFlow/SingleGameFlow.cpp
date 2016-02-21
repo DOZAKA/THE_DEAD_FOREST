@@ -26,7 +26,7 @@ namespace realtrick
         EntityHuman* player = gameMgr->getPlayerPtr();
         _gameWorld->setPlayerPtr(player);
         _player = player;
-        
+
         // 화면 출력
         _gameWorld->displayGame();
     }

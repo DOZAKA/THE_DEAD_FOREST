@@ -13,7 +13,7 @@
 
 #include "PacketProcess.h"
 #include "cocos2d.h"
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 #include "JoystickEx.hpp"
 
 namespace realtrick

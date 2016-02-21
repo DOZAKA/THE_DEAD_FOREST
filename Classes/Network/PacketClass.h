@@ -2,6 +2,7 @@
 
 #include "packetHeader.h"
 #include "Stream.h"
+#include "cocos2d.h"
 
 namespace realtrick
 {

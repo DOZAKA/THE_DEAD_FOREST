@@ -2,6 +2,7 @@
 #include <queue>
 #include <array>
 #include "Type.h"
+#include "cocos2d.h"
 
 namespace realtrick
 {

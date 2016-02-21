@@ -12,6 +12,7 @@
 #include <string>
 
 #include "EntityType.hpp"
+#include "cocos2d.h"
 
 namespace realtrick
 {

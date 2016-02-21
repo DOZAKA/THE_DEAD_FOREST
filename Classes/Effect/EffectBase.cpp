@@ -61,7 +61,7 @@ namespace realtrick
         _backgroundListener = EventListenerCustom::create(EVENT_RENDERER_RECREATED,
                                                           [this](EventCustom*)
                                                           {
-                                                              auto glProgram = _glprogramstate->getGLProgram();
+                                                              auto glProgram = _glProgramState->getGLProgram();
                                                               glProgram->reset();
                                                               glProgram->initWithByteArrays(ccPositionTextureColor_noMVP_vert, _fragSource.c_str());
                                                               glProgram->link();
