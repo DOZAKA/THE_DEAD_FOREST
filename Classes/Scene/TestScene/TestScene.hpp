@@ -12,7 +12,6 @@
 #include "cocos2d.h"
 #include "CocosGUI.h"
 #include "cocos-ext.h"
-#include "CircularBezel.hpp"
 
 namespace realtrick
 {
@@ -34,7 +33,6 @@ namespace realtrick
     private:
         
         cocos2d::Size                       _winSize;
-        LightEffect*                        _lightEffect;
         
     };
     
