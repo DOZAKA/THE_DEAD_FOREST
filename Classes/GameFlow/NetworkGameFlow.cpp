@@ -179,7 +179,7 @@ namespace realtrick
         return ret;
     }
     
-    
+    /*
     void NetworkGameFlow::packetExecute()
     {
         network::Packet* packet;
@@ -188,7 +188,21 @@ namespace realtrick
             _packetProcess->packetExecute(packet);
         }
     }
-    
+    */
+
+    void NetworkGameFlow::packetExecute()
+        {
+
+            network::Packet* packet;
+            while(network::PacketQueue::getInstance().isEmpty() == false)
+            {
+                if(network::PacketQueue::getInstance().pop(packet))
+                {
+                    _packetProcess->packetExecute(packet);
+                }
+            }
+        }
+
 }
 
 
