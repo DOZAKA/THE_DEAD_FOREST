@@ -82,14 +82,14 @@ namespace realtrick
         AnimationPlayer() = delete;
         
         std::string _getFrameName();
-        
+
         std::string _to_string(int number)
-        {
-            std::ostringstream convStream;
-            convStream << number;
-            return convStream.str();
-        }
-        
+		{
+			std::ostringstream convStream;
+			convStream << number;
+			return convStream.str();
+		}
+
     };
     
 }

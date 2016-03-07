@@ -129,10 +129,10 @@ namespace realtrick
         AnimHumanM1897Reload()
         {
             _startFrame     = 0;
-            _maxFrame       = 21;
+            _maxFrame       = 9;
             _fileName       = "HumanM1897Reload";
             _priority       = 3;
-            _frameSwapTime  = 0.07f;
+            _frameSwapTime  = 0.14f;
             _isReversePlay  = false;
         }
         

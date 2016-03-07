@@ -108,7 +108,7 @@ namespace realtrick
         AnimHumanM16A2Attack()
         {
             _startFrame     = 0;
-            _maxFrame       = 6;
+            _maxFrame       = 14;
             _fileName       = "HumanM16A2Attack";
             _priority       = 3;
             _frameSwapTime  = 0.03f;

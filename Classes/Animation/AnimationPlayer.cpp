@@ -130,6 +130,7 @@ namespace realtrick
         }
     }
     
+    
     std::string AnimationPlayer::_getFrameName()
     {
         std::string frame = _frameQueue.front().first;
@@ -137,30 +138,36 @@ namespace realtrick
         return frame;
     }
     
+    
     int AnimationPlayer::getFrameIndex() const
     {
         return _frameQueue.front().second;
     }
+    
     
     void AnimationPlayer::pushOneFrame(const std::pair<std::string, int>& pair_string_int)
     {
         _frameQueue.push_back(pair_string_int);
     }
     
+    
     void AnimationPlayer::setVisible(bool enable)
     {
         _baseSprite->setVisible(enable);
     }
+    
     
     void AnimationPlayer::enableShadow(bool enable)
     {
         _shadowSprite->setVisible(enable);
     }
     
+    
     void AnimationPlayer::enableNormal(bool enable)
     {
         _normalSprite->setVisible(enable);
     }
+    
 }
 
 
